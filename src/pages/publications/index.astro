@@ -20,7 +20,7 @@ const grouped = sorted.reduce((acc, pub) => {
   if (!acc[year]) acc[year] = [];
   acc[year].push(pub.data);
   return acc;
-}, {});
+}, new Map());
 
 const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
 ---
@@ -123,6 +123,17 @@ const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
     margin: 0 0 .7rem 0;
     font-size: 1.6rem;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .yearCount{
+    font-size: .96rem;
+    font-weight: 600;
+    color: rgba(0,0,0,.52);
   }
 
   .pubList {
