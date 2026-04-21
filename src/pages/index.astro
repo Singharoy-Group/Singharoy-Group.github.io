@@ -1,225 +1,175 @@
 ---
-// src/pages/index.astro
-// Home page for "Systems Structural Biology Group"
 import SiteLayout from "../layouts/SiteLayout.astro";
+import { withBase as withSiteBase } from "../lib/site";
 
 const base = import.meta.env.BASE_URL;
+const withBase = (path = "") => withSiteBase(base, path);
+
+const contactMethods = [
+  {
+    label: "Principal Investigator",
+    value: "Abhishek Singharoy",
+    detail: "asinghar@asu.edu",
+    href: "mailto:asinghar@asu.edu",
+  },
+  {
+    label: "General website inquiries",
+    value: "Lab communications",
+    detail: "Use email for collaboration, recruiting, or website questions.",
+    href: "mailto:asinghar@asu.edu?subject=Lab%20Website%20Inquiry",
+  },
+];
+
+const quickLinks = [
+  { label: "People", href: withBase("/people") },
+  { label: "Research", href: withBase("/research") },
+  { label: "Projects", href: withBase("/projects") },
+  { label: "News", href: withBase("/news") },
+];
 ---
 
 <style>
-  /* ---------- Page layout ---------- */
   .wrap{
     max-width: 1240px;
     margin: 0 auto;
-    padding: 2.2rem 1.25rem 3.2rem 1.25rem;
+    padding: 2.2rem 1.25rem 3.2rem;
   }
-
-  /* Hero */
   .hero{
     border-radius: 28px;
     padding: 2.6rem 2.2rem;
     background:
-      radial-gradient(1200px 520px at 12% 10%, rgba(99,102,241,.26), transparent 60%),
-      radial-gradient(900px 520px at 90% 0%, rgba(56,189,248,.22), transparent 55%),
-      radial-gradient(900px 520px at 50% 120%, rgba(16,185,129,.10), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.78));
+      radial-gradient(1200px 520px at 8% 0%, rgba(56,189,248,.22), transparent 55%),
+      radial-gradient(900px 520px at 100% 0%, rgba(99,102,241,.20), transparent 55%),
+      linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.80));
     border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 18px 46px rgba(0,0,0,.09);
+    box-shadow: 0 18px 46px rgba(0,0,0,.08);
   }
-
   .kicker{
     font-size: .92rem;
     letter-spacing: .16em;
     text-transform: uppercase;
     color: rgba(0,0,0,.55);
-    margin: 0 0 .55rem 0;
+    margin: 0 0 .55rem;
   }
   h1{
-    font-size: 3.05rem;
+    margin: 0;
+    font-size: 3rem;
     line-height: 1.04;
-    margin: 0 0 .85rem 0;
     letter-spacing: -0.02em;
   }
   .lead{
-    font-size: 1.22rem;
-    line-height: 1.6;
-    color: rgba(0,0,0,.74);
-    max-width: 78ch;
-    margin: 0;
-  }
-
-  .chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.6rem;
-    margin-top: 1.2rem;
-  }
-  .chip{
-    font-size: 1rem;
-    padding: .5rem .8rem;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.76);
+    margin: .9rem 0 0;
+    max-width: 70ch;
     color: rgba(0,0,0,.72);
+    line-height: 1.68;
+    font-size: 1.15rem;
   }
 
-  .ctaRow{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.75rem;
-    margin-top: 1.35rem;
-  }
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:.5rem;
-    padding: .72rem 1.05rem;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.90);
-    color: rgba(0,0,0,.86);
-    text-decoration:none;
-    font-size: 1.02rem;
-    font-weight: 700;
-    transition: transform .15s ease, background .15s ease, border-color .15s ease;
-  }
-  .btn:hover{
-    transform: translateY(-1px);
-    background: rgba(0,0,0,.04);
-    border-color: rgba(0,0,0,.14);
-  }
-  .btn.primary{
-    background: rgba(0,0,0,.92);
-    color: rgba(255,255,255,.95);
-    border-color: rgba(0,0,0,.92);
-  }
-  .btn.primary:hover{
-    background: rgba(0,0,0,.85);
-  }
-
-  /* Content grid */
   .grid{
     display:grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 1.25rem;
-    margin-top: 1.35rem;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 1.2rem;
+    margin-top: 1.3rem;
   }
-  @media (max-width: 980px){
-    .grid{ grid-template-columns: 1fr; }
+  .stack{
+    display:grid;
+    gap: 1.2rem;
   }
-
   .card{
-    border-radius: 22px;
+    border-radius: 24px;
     background: rgba(255,255,255,.94);
     border: 1px solid rgba(0,0,0,.06);
     box-shadow: 0 12px 28px rgba(0,0,0,.07);
-    padding: 1.25rem 1.25rem 1.15rem 1.25rem;
+    padding: 1.3rem;
   }
   .card h2{
-    margin: 0 0 .6rem 0;
-    font-size: 1.25rem;
-    letter-spacing: -0.01em;
+    margin: 0 0 .8rem;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
   }
   .card p{
     margin: 0;
-    font-size: 1.06rem;
-    line-height: 1.62;
     color: rgba(0,0,0,.74);
-  }
-
-  .list{
-    margin: .8rem 0 0 0;
-    padding-left: 1.05rem;
-    color: rgba(0,0,0,.74);
+    line-height: 1.7;
     font-size: 1.03rem;
-    line-height: 1.65;
   }
-  .list li{ margin: .3rem 0; }
-
-  .mini{
+  .contactList{
     display:grid;
-    gap: 1rem;
+    gap: .9rem;
   }
-  .stat{
+  .contactItem{
+    padding: 1rem;
     border-radius: 18px;
-    border: 1px solid rgba(0,0,0,.08);
-    background: rgba(0,0,0,.02);
-    padding: 1rem 1.05rem;
+    background: rgba(0,0,0,.03);
+    border: 1px solid rgba(0,0,0,.05);
   }
-  .stat .label{
+  .contactItem a{
+    color: inherit;
+    text-decoration: none;
+  }
+  .contactItem a:hover .contactValue{
+    text-decoration: underline;
+  }
+  .contactLabel{
+    margin: 0 0 .3rem;
     font-size: .9rem;
-    letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(0,0,0,.55);
-    margin: 0 0 .35rem 0;
+    letter-spacing: .12em;
+    color: rgba(0,0,0,.52);
   }
-  .stat .value{
-    font-size: 1.12rem;
-    font-weight: 800;
+  .contactValue{
     margin: 0;
-    color: rgba(0,0,0,.86);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(0,0,0,.9);
   }
-  .stat .desc{
-    margin: .45rem 0 0 0;
-    color: rgba(0,0,0,.70);
-    font-size: 1rem;
-    line-height: 1.55;
+  .contactDetail{
+    margin-top: .35rem;
   }
-
-  /* Footer */
-  .footer{
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 2.5rem 1.25rem;
-    color: rgba(0,0,0,.6);
-    font-size: .95rem;
+  .linkGrid{
+    display:grid;
+    gap:.8rem;
+    margin-top: .95rem;
   }
-  .footerRow{
+  .quickLink{
     display:flex;
     justify-content:space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-    border-top: 1px solid rgba(0,0,0,.08);
-    padding-top: 1.25rem;
-  }
-  .footerBrand{
-    display:inline-flex;
     align-items:center;
-    gap:.6rem;
-  }
-  .footerLogo{
-    width: 28px;
-    height: 28px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1px solid rgba(0,0,0,.08);
-    background: rgba(255,255,255,.8);
-    transition: transform .18s ease, filter .18s ease;
-  }
-  .footerBrand:hover .footerLogo{
-    transform: translateY(-1px) scale(1.03);
-    filter: saturate(1.08) contrast(1.03);
-  }
-  .footerLinks{
-    display:flex;
-    gap:.9rem;
-    flex-wrap: wrap;
-  }
-  .footerLinks a{
-    color: rgba(0,0,0,.65);
     text-decoration:none;
+    color: rgba(0,0,0,.84);
+    padding:.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,.86);
+    border: 1px solid rgba(0,0,0,.08);
   }
-  .footerLinks a:hover{ text-decoration: underline; }
+  .quickLink:hover{
+    background: rgba(0,0,0,.03);
+  }
+  .btn{
+    display:inline-flex;
+    margin-top: 1rem;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-weight:700;
+    border-radius:999px;
+    padding:.72rem 1.02rem;
+    border:1px solid rgba(0,0,0,.10);
+    background: rgba(0,0,0,.92);
+    color: rgba(255,255,255,.96);
+  }
 
+  @media (max-width: 980px){
+    .grid{ grid-template-columns: 1fr; }
+  }
   @media (max-width: 640px){
-    .wrap{ padding: 1.6rem 1rem 2.8rem 1rem; }
-    .hero{ padding: 2.1rem 1.4rem; }
-    h1{ font-size: 2.35rem; }
-    .lead{ font-size: 1.12rem; }
+    .wrap{ padding: 1.6rem 1rem 2.8rem; }
+    .hero{ padding: 2rem 1.35rem; }
+    h1{ font-size: 2.3rem; }
   }
 </style>
 
+<<<<<<< Updated upstream
 <SiteLayout title="Systems Structural Biology Group">
 <main class="wrap">
   <section class="hero">
@@ -251,24 +201,47 @@ const base = import.meta.env.BASE_URL;
       <p>
         We unify simulation, learning, and human-centered design to study complex biological and sociotechnical systems.
         Our work spans molecular modeling and structural analysis, data-driven inference, and adaptive decision support.
+=======
+<SiteLayout title="Contact | Systems Structural Biology Group">
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">Contact</p>
+      <h1>Get in touch with the lab.</h1>
+      <p class="lead">
+        Reach out for collaboration opportunities, research questions, recruiting inquiries,
+        or general information about the Systems Structural Biology Group.
+>>>>>>> Stashed changes
       </p>
-      <ul class="list">
-        <li><strong>Structural biology & modeling:</strong> molecular simulation, multiscale structure–function analysis.</li>
-        <li><strong>AI + data science:</strong> statistical learning, reliable inference, uncertainty-aware modeling.</li>
-        <li><strong>Complex systems:</strong> dynamical systems methods and interpretable metrics for behavior over time.</li>
-        <li><strong>Human-centered AI:</strong> usable, trustworthy tools for learning, health, and operational contexts.</li>
-      </ul>
-    </div>
+    </section>
 
-    <div class="mini">
-      <div class="stat">
-        <p class="label">Mission</p>
-        <p class="value">Trustworthy, usable AI for discovery</p>
-        <p class="desc">
-          Build human-centered AI and data science that turns complex signals into reliable insight and deployable tools.
-        </p>
+    <section class="grid">
+      <div class="stack">
+        <article class="card">
+          <h2>Contact methods</h2>
+          <div class="contactList">
+            {contactMethods.map((item) => (
+              <div class="contactItem">
+                <p class="contactLabel">{item.label}</p>
+                <a href={item.href}>
+                  <p class="contactValue">{item.value}</p>
+                </a>
+                <p class="contactDetail">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Prospective students and collaborators</h2>
+          <p>
+            If you are interested in joining the lab or starting a collaboration, it helps to include
+            a short message about your interests, background, and the kind of work you would like to discuss.
+          </p>
+          <a class="btn" href={withBase("/join")}>See joining information</a>
+        </article>
       </div>
 
+<<<<<<< Updated upstream
       <div class="stat">
         <p class="label">Vision</p>
         <p class="value">Interpretability at scale</p>
@@ -276,15 +249,32 @@ const base = import.meta.env.BASE_URL;
           Enable scientific and operational teams to understand, communicate, and act on complex systems with confidence.
         </p>
       </div>
+=======
+      <div class="stack">
+        <article class="card">
+          <h2>Quick links</h2>
+          <p>
+            If you are looking for a specific part of the site, these pages are usually the best starting points.
+          </p>
+          <div class="linkGrid">
+            {quickLinks.map((item) => (
+              <a class="quickLink" href={item.href}>
+                <span>{item.label}</span>
+                <span>Open</span>
+              </a>
+            ))}
+          </div>
+        </article>
+>>>>>>> Stashed changes
 
-      <div class="stat">
-        <p class="label">Get involved</p>
-        <p class="value">Students & collaborators welcome</p>
-        <p class="desc">
-          We support graduate/undergraduate research, internships, and cross-disciplinary collaborations.
-        </p>
+        <article class="card">
+          <h2>Primary email</h2>
+          <p>
+            For the fastest response, use email and include any relevant context or links in your first message.
+          </p>
+          <a class="btn" href="mailto:asinghar@asu.edu">asinghar@asu.edu</a>
+        </article>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 </SiteLayout>

@@ -25,6 +25,23 @@ const projects = defineCollection({
     title: z.string(),
     status: z.enum(["Active", "Completed"]).default("Active"),
     summary: z.string(),
+<<<<<<< Updated upstream
+=======
+    link: z.string().optional(),
+    link_label: z.string().optional(),
+    publications: z
+      .array(
+        z.object({
+          title: z.string(),
+          venue: z.string().optional(),
+          year: z.number().optional(),
+          link: z.string(),
+        })
+      )
+      .optional(),
+    video: z.string().optional(),
+    thumbnail: z.string().optional(),
+>>>>>>> Stashed changes
     tags: z.array(z.string()).optional(),
     links: z.array(z.string()).optional(),
     team: z.array(z.string()).optional(),
