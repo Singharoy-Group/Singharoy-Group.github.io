@@ -12,7 +12,7 @@ const withBase = (path = "") => withSiteBase(base, path);
 >>>>>>> fcda4eb9722a2878fad0fb2ef4ab90dd90ba3f40
 const projectEntries = await getCollection("projects");
 
-// 2. Define Topic List (Must be above functions that use it)
+// 2. Define Topic List
 const topicDefinitions = [
   { slug: "structural-biology", label: "Structural Biology", matchTags: ["Structural Biology", "Biophysics", "Structure Prediction", "Electrostatics"] },
   { slug: "complex-systems", label: "Complex Systems", matchTags: ["Complex Systems", "Molecular Dynamics", "Brownian Dynamics", "Thermodynamic Ensembles", "MELD"] },
@@ -375,6 +375,10 @@ const stats = [
   .mediaContainer video, .mediaContainer img { width: 100%; height: auto; display: block; object-fit: cover; }
 >>>>>>> fcda4eb9722a2878fad0fb2ef4ab90dd90ba3f40
 
+  /* FIX FOR TAGS */
+  .tagRow { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag { font-size: 0.82rem; font-weight: 600; background: #f3f4f6; color: #4b5563; padding: 0.35rem 0.8rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.04); }
+
   .memberLink { display: block; padding: .85rem 1rem; text-decoration: none; color: #111827; border-radius: 16px; background: white; border: 1px solid rgba(0,0,0,.07); margin-top: 0.5rem; transition: transform 0.15s ease; }
   .memberLink:hover { transform: translateY(-1px); background: rgba(0,0,0,.01); }
 
@@ -736,7 +740,7 @@ const stats = [
     </section>
 
     <section id="topic-map" class="topicMap">
-      <h2 style="margin:0;">Topic Map</h2>
+      <h2 style="margin:0;">Key Research Areas</h2>
       <p style="color: #666; margin-bottom: 1.5rem;">Filter projects and people by research area:</p>
       
       <div class="topicPills">
@@ -784,6 +788,7 @@ const stats = [
                 </div>
               )}
 
+              {/* REFACTORED TAGS CONTAINER */}
               <div class="tagRow">
                 {project.data.tags?.map((tag) => (
                   <span class="tag">{tag}</span>
