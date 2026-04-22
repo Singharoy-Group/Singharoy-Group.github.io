@@ -1,4 +1,3 @@
----
 import SiteLayout from "../layouts/SiteLayout.astro";
 import { withBase as withSiteBase } from "../lib/site";
 
@@ -66,7 +65,7 @@ const motionCards = [
   {
     title: "Cooperativity",
     body1:
-      "Beyond internal dynamics, protein function depends on modifications and environmental changes through cooperative and allosteric coupling that can also be chemomechanical.",
+      "Beyond internal dynamics, protein function depends on modifications and environmental changes through cooperative and allosterostoc coupling that can also be chemomechanical.",
     body2:
       "Cooperativity controls protein movements in cellular environments and can be harnessed for biomolecular engineering and manufacturing benefits.",
     image: "uploads/cooperativity-protein-darpa-program-nodes.gif",
@@ -78,56 +77,59 @@ const motionCards = [
 ---
 
 <style>
-  .wrap {
+  .wrap{
     max-width: 1240px;
     margin: 0 auto;
     padding: 2.2rem 1.25rem 3.2rem;
   }
-  .hero {
+  .hero{
     border-radius: 28px;
     padding: 2.6rem 2.2rem;
     background:
-      radial-gradient(1200px 520px at 12% 10%, rgba(99,102,241,.26), transparent 60%),
-      radial-gradient(900px 520px at 90% 0%, rgba(56,189,248,.22), transparent 55%),
-      radial-gradient(900px 520px at 50% 120%, rgba(16,185,129,.10), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.78));
+      radial-gradient(1200px 520px at 8% 0%, rgba(56,189,248,.22), transparent 55%),
+      radial-gradient(900px 520px at 100% 0%, rgba(99,102,241,.20), transparent 55%),
+      linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.80));
     border: 1px solid rgba(0,0,0,.06);
     box-shadow: 0 18px 46px rgba(0,0,0,.08);
   }
-  .kicker {
+  .kicker{
     font-size: .92rem;
     letter-spacing: .16em;
     text-transform: uppercase;
     color: rgba(0,0,0,.55);
     margin: 0 0 .55rem;
   }
-  h1 {
-    font-size: 3.05rem;
-    line-height: 1.04;
-    margin: 0 0 .85rem;
-    letter-spacing: -0.02em;
-    /* max-width: 25ch; */
-  }
-  .lead {
-    font-size: 1.18rem;
-    line-height: 1.65;
-    color: rgba(0,0,0,.74);
-    /* max-width: 82ch; */
+  h1{
     margin: 0;
+    font-size: 3rem;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+  .lead{
+    margin: .9rem 0 1.5rem;
+    max-width: 82ch;
+    color: rgba(0,0,0,.72);
+    line-height: 1.68;
+    font-size: 1.15rem;
   }
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: .6rem;
-    margin-top: 1.2rem;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
   }
   .chip {
-    font-size: 1rem;
-    padding: .5rem .8rem;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.76);
-    color: rgba(0,0,0,.72);
+    padding: 0.4rem 0.9rem;
+    background: rgba(0,0,0,0.05);
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(0,0,0,0.7);
+  }
+  .ctaRow {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
   .missionGrid{
     display:grid;
@@ -153,210 +155,122 @@ const motionCards = [
     font-size: 1.02rem;
   }
 
-  /* Fixed CTA spacing */
-  .ctaRow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .75rem;
-    margin-top: 1.35rem;
+  .grid{
+    display:grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 1.2rem;
+    margin-top: 1.3rem;
   }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    padding: .72rem 1.05rem;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.90);
-    color: rgba(0,0,0,.86);
-    text-decoration: none;
-    font-size: 1.02rem;
-    font-weight: 700;
-    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  .stack{
+    display:grid;
+    gap: 1.2rem;
   }
-  .btn:hover {
-    transform: translateY(-1px);
-    background: rgba(0,0,0,.04);
-    border-color: rgba(0,0,0,.14);
-  }
-  .btn.primary {
-    background: rgba(0,0,0,.92);
-    color: rgba(255,255,255,.95);
-    border-color: rgba(0,0,0,.92);
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 1.25rem;
-    margin-top: 1.35rem;
-  }
-  .stack {
-    display: grid;
-    gap: 1rem;
-  }
-  .card {
-    border-radius: 22px;
+  .card{
+    border-radius: 24px;
     background: rgba(255,255,255,.94);
     border: 1px solid rgba(0,0,0,.06);
     box-shadow: 0 12px 28px rgba(0,0,0,.07);
-    padding: 1.25rem;
+    padding: 1.3rem;
   }
-  .card h2 {
-    margin: 0 0 .6rem;
-    font-size: 1.3rem;
-    letter-spacing: -0.01em;
+  .card h2{
+    margin: 0 0 .8rem;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
   }
-  .card p {
+  .card p{
     margin: 0;
-    font-size: 1.04rem;
-    line-height: 1.66;
+    color: rgba(0,0,0,.74);
+    line-height: 1.7;
+    font-size: 1.03rem;
+  }
+  .list {
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
     color: rgba(0,0,0,.74);
   }
-  .contactList {
-    display: grid;
-    gap: .9rem;
+  .list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
   }
-  .contactItem {
-    padding: 1rem;
-    border-radius: 18px;
-    background: rgba(0,0,0,.03);
-    border: 1px solid rgba(0,0,0,.05);
-  }
-  .contactItem a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .contactItem a:hover .contactValue {
-    text-decoration: underline;
-  }
-  .contactLabel {
-    margin: 0 0 .3rem;
-    font-size: .9rem;
-    text-transform: uppercase;
-    letter-spacing: .12em;
-    color: rgba(0,0,0,.52);
-  }
-  .contactValue {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: rgba(0,0,0,.9);
-  }
-  .linkGrid {
-    display: grid;
-    gap: .8rem;
+  .linkGrid{
+    display:grid;
+    gap:.8rem;
     margin-top: .95rem;
   }
-  .quickLink {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
+  .quickLink{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    text-decoration:none;
     color: rgba(0,0,0,.84);
-    padding: .9rem 1rem;
+    padding:.9rem 1rem;
     border-radius: 16px;
     background: rgba(255,255,255,.86);
     border: 1px solid rgba(0,0,0,.08);
   }
-  .quickLink:hover {
+  .quickLink:hover{
     background: rgba(0,0,0,.03);
   }
-  .motionSection{
-    margin-top: 1.5rem;
-    display: grid;
-    gap: 1.25rem;
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-weight:700;
+    border-radius:999px;
+    padding:.72rem 1.02rem;
+    border:1px solid rgba(0,0,0,.10);
+    background: rgba(240,240,240,.92);
+    color: rgba(0,0,0,.96);
+    transition: all 0.2s;
+  }
+  .btn.primary {
+    background: rgba(0,0,0,.92);
+    color: white;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  .motionHeader{
-    margin-top: 1rem;
+  .motionSection{
+    margin-top: 3rem;
+    display: grid;
+    gap: 1.25rem;
   }
   .motionHeader h2{
     margin: 0 0 .35rem 0;
     font-size: 2rem;
     letter-spacing: -0.02em;
   }
-  .motionHeader p{
-    margin: 0;
-    color: rgba(0,0,0,.68);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    max-width: 72ch;
-  }
-
   .motionCard{
     border-radius: 24px;
     background: linear-gradient(180deg, rgba(245,246,250,.98), rgba(239,241,246,.98));
     border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 12px 28px rgba(0,0,0,.06);
     padding: 1.5rem;
   }
-
   .motionGrid{
     display: grid;
     grid-template-columns: minmax(260px, 360px) 1fr;
     gap: 1.35rem;
     align-items: start;
   }
-
   .motionGrid.reverse{
     grid-template-columns: 1fr minmax(260px, 360px);
   }
-
-  .motionMedia{
-    display: flex;
-    flex-direction: column;
-    gap: .8rem;
-  }
-
   .motionImage{
     width: 100%;
     border-radius: 14px;
-    border-style: none;
     box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    display: block;
-    background: white;
   }
-
-  .motionCaption{
-    margin: 0;
-    font-size: .97rem;
-    line-height: 1.45;
-    color: rgba(0,0,0,.56);
-    font-style: italic;
-  }
-
   .motionText h3{
     margin: .2rem 0 .7rem 0;
     font-size: 2rem;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
-
-  .motionText p{
-    margin: 0 0 1rem 0;
-    font-size: 1.08rem;
-    line-height: 1.62;
-    color: rgba(0,0,0,.78);
-    max-width: 34ch;
   }
 
   @media (max-width: 980px){
     .grid{ grid-template-columns: 1fr; }
-    .missionGrid{ grid-template-columns: 1fr; }
-    .motionGrid,
-    .motionGrid.reverse{
-      grid-template-columns: 1fr;
-    }
-    .motionText p{
-      max-width: none;
-    }
-  }
-  @media (max-width: 640px) {
-    .wrap { padding: 1.6rem 1rem 2.8rem; }
-    .hero { padding: 2.1rem 1.4rem; }
-    h1 { font-size: 2.35rem; }
+    .motionGrid, .motionGrid.reverse{ grid-template-columns: 1fr; }
   }
 </style>
 
@@ -364,18 +278,18 @@ const motionCards = [
   <main class="wrap">
     <section class="hero">
       <p class="kicker">Systems Structural Biology Group</p>
-      <h1>Structural Biology, Molecular Simulation, Drug Discovery & AI/ML</h1>
+      <h1>Human-centered AI science for structural discovery and complex systems.</h1>
       <p class="lead">
-        We build trustworthy computational methods to connect protein structure, molecular dynamics, and clinical outcomes. 
-        Our tools span across biophysics, applied deep learning, and adaptive human-computer interaction.
+        We build trustworthy computational methods that connect protein structure, molecular dynamics, and human decision-making. 
+        Our tools span across structural biology, applied deep learning, and adaptive AI systems at the human-computer interface.
       </p>
 
       <div class="chips">
         <span class="chip">Structural biology</span>
         <span class="chip">Complex systems</span>
-        <span class="chip">Human-centered AI</span>
+        <span class="chip">Human-centered data science</span>
         <span class="chip">Nonlinear dynamics</span>
-        <span class="chip">Drug Discovery</span>
+        <span class="chip">Interpretable AI</span>
       </div>
 
       <div class="ctaRow">
@@ -389,44 +303,78 @@ const motionCards = [
       <div class="card">
         <h2>What we do</h2>
         <p>
-          We unify simulation, learning, and human-centered design to study complex biological systems.
-          Our work spans molecular modeling, data-driven inference, and adaptive decision support.
+          We unify simulation, learning, and human-centered design to study complex biological and sociotechnical systems.
         </p>
-        <ul style="margin-top: 1rem; color: rgba(0,0,0,0.74); line-height: 1.65; padding-left: 1.2rem;">
-          <li><strong>Structural modeling:</strong> simulation and multiscale analysis.</li>
-          <li><strong>AI + data science:</strong> statistical learning and reliable inference.</li>
-          <li><strong>Complex systems:</strong> dynamical methods for molecular behavior.</li>
-          <li><strong>Human-centered AI:</strong> trustworthy tools for health and discovery.</li>
+        <ul class="list">
+          <li><strong>Structural biology & modeling:</strong> molecular simulation, multiscale structure–function analysis.</li>
+          <li><strong>AI + data science:</strong> statistical learning, reliable inference.</li>
+          <li><strong>Complex systems:</strong> dynamical systems methods and interpretable metrics.</li>
+          <li><strong>Human-centered AI:</strong> usable, trustworthy tools for health and operations.</li>
         </ul>
       </div>
 
       <div class="stack">
+        <div class="card">
+          <h2>Mission & Vision</h2>
+          <p><strong>Mission:</strong> Trustworthy, usable AI for discovery. Build human-centered AI that turns complex signals into reliable insight.</p>
+          <p style="margin-top: 0.5rem;"><strong>Vision:</strong> Interpretability at scale. We demystify the underpinnings of complex AI and biological systems.</p>
+        </div>
+
         <article class="card">
           <h2>Quick links</h2>
           <div class="linkGrid">
             {quickLinks.map((item) => (
               <a class="quickLink" href={item.href}>
                 <span>{item.label}</span>
-                <span style="opacity: .5;">Open →</span>
+                <span>Open</span>
               </a>
             ))}
           </div>
         </article>
+      </div>
+    </section>
 
-        <article class="card">
-          <h2>Contact</h2>
-          <div class="contactList">
-            {contactMethods.map((item) => (
-              <div class="contactItem">
-                <p class="contactLabel">{item.label}</p>
-                <a href={item.href}>
-                  <p class="contactValue">{item.value}</p>
-                </a>
-              </div>
-            ))}
+    <section class="motionSection" aria-label="Protein understanding in motion">
+      <div class="motionHeader">
+        <p class="kicker">Molecular behaviors</p>
+        <h2>Building protein understanding in motion</h2>
+        <p>
+          We study protein behavior not only as static structure, but as motion, interaction,
+          and cooperative response.
+        </p>
+      </div>
+
+      {motionCards.map((card, index) => (
+        <article class="motionCard">
+          <div class={`motionGrid ${index === 1 ? "reverse" : ""}`}>
+            {index === 1 ? (
+              <>
+                <div class="motionText">
+                  <h3>{card.title}</h3>
+                  <p>{card.body1}</p>
+                  <p>{card.body2}</p>
+                </div>
+                <div class="motionMedia">
+                  <img class="motionImage" src={withBase(card.image)} alt={card.alt} loading="lazy" />
+                  <p class="motionCaption">{card.caption}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div class="motionMedia">
+                  <img class="motionImage" src={withBase(card.image)} alt={card.alt} loading="lazy" />
+                  <p class="motionCaption">{card.caption}</p>
+                </div>
+                <div class="motionText">
+                  <h3>{card.title}</h3>
+                  <p>{card.body1}</p>
+                  <p>{card.body2}</p>
+                </div>
+              </>
+            )}
           </div>
         </article>
-      </div>
+      ))}
     </section>
   </main>
 </SiteLayout>
