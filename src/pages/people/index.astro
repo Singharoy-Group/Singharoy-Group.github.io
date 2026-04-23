@@ -82,7 +82,7 @@ const assetPath = (path = "") => uploadPath(base, path);
 const sitePath = (path = "") => withBase(base, path);
 const placeholderImage = assetPath("logo.png");
 
-const keywords = [
+const researchAreas = [
   { label: "Structural Biology", href: sitePath("/projects?topic=structural-biology#topic-map") },
   { label: "Complex Systems", href: sitePath("/projects?topic=complex-systems#topic-map") },
   { label: "Multiscale Modeling", href: sitePath("/projects?topic=multiscale-modeling#topic-map") },
@@ -94,6 +94,7 @@ const keywords = [
 <style>
   :global(html) { font-family: Arial, Helvetica, sans-serif; }
   :global(body) { background: #f6f7fb; margin: 0; color: rgba(0,0,0,.9); }
+  :global([id]) { scroll-margin-top: 104px; }
 
   .topbar {
     position: sticky;
@@ -338,29 +339,31 @@ const keywords = [
     margin: 0;
   }
 
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .55rem;
+  .topicSelectWrap {
+    display: grid;
+    gap: .38rem;
     margin-top: 1rem;
+    max-width: 360px;
   }
 
-  .chip {
-    font-size: 0.98rem;
-    padding: .45rem .75rem;
-    border-radius: 999px;
+  .topicSelectLabel {
+    margin: 0;
+    font-size: .86rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(0,0,0,.5);
+    font-weight: 700;
+  }
+
+  .topicSelect {
+    width: 100%;
+    border-radius: 14px;
     border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.75);
-    color: rgba(0,0,0,.72);
-    text-decoration: none;
-    transition: background .15s ease, border-color .15s ease, transform .15s ease;
-  }
-
-  .chip:hover,
-  .chip:focus-visible {
-    background: rgba(255,255,255,.95);
-    border-color: rgba(0,0,0,.18);
-    transform: translateY(-1px);
+    background: white;
+    color: rgba(0,0,0,.86);
+    padding: .72rem .9rem;
+    font-size: .96rem;
+    line-height: 1.2;
   }
 
   .section { margin-top: 1.75rem; }
@@ -620,10 +623,18 @@ const keywords = [
     <p class="kicker">Our Team</p>
     <h1>People</h1>
     <p class="sub">Human-centered AI science for structural discovery and complex systems.</p>
-    <div class="chips">
-      {keywords.map((keyword) => (
-        <a class="chip" href={keyword.href}>{keyword.label}</a>
-      ))}
+    <div class="topicSelectWrap">
+      <label class="topicSelectLabel" for="people-research-area">Research area</label>
+      <select
+        id="people-research-area"
+        class="topicSelect"
+        onchange="if (this.value) window.location.href=this.value"
+      >
+        <option value="">Choose a research area</option>
+        {researchAreas.map((area) => (
+          <option value={area.href}>{area.label}</option>
+        ))}
+      </select>
     </div>
   </section>
 

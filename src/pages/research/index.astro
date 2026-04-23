@@ -7,6 +7,14 @@ import { withBase as withSiteBase } from "../../lib/site";
 const base = import.meta.env.BASE_URL;
 const withBase = (path = "") => withSiteBase(base, path);
 
+const researchAreas = [
+  { label: "Structural Biology", href: withBase("/projects?topic=structural-biology#topic-map") },
+  { label: "Complex Systems", href: withBase("/projects?topic=complex-systems#topic-map") },
+  { label: "Multiscale Modeling", href: withBase("/projects?topic=multiscale-modeling#topic-map") },
+  { label: "Applied Deep Learning", href: withBase("/projects?topic=applied-deep-learning#topic-map") },
+  { label: "Human Computer Interaction", href: withBase("/projects?topic=human-computer-interaction#topic-map") },
+];
+
 const focusAreas = [
   {
     title: "Origins of life through structure and dynamics",
@@ -109,6 +117,7 @@ const relatedResearch = [
 <style>
   :global(html) { font-family: Arial, Helvetica, sans-serif; }
   :global(body) { background: #f6f7fb; margin: 0; color: rgba(0,0,0,.92); }
+  :global([id]) { scroll-margin-top: 104px; }
 
   .topbar{
     position: sticky;
@@ -336,19 +345,29 @@ const relatedResearch = [
     margin: 0;
   }
 
-  .chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.6rem;
+  .topicSelectWrap{
+    display:grid;
+    gap:.38rem;
     margin-top: 1.2rem;
+    max-width: 360px;
   }
-  .chip{
-    font-size: 1rem;
-    padding: .5rem .8rem;
-    border-radius: 999px;
+  .topicSelectLabel{
+    margin: 0;
+    font-size: .86rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(0,0,0,.5);
+    font-weight: 700;
+  }
+  .topicSelect{
+    width: 100%;
+    border-radius: 14px;
     border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.76);
-    color: rgba(0,0,0,.72);
+    background: white;
+    color: rgba(0,0,0,.86);
+    padding: .72rem .9rem;
+    font-size: .96rem;
+    line-height: 1.2;
   }
 
   .ctaRow{
@@ -664,19 +683,24 @@ const relatedResearch = [
       function, and how these principles can be translated into health, disease, and therapeutic design.
     </p>
 
-    <div class="chips">
-      <span class="chip">Molecular dynamics</span>
-      <span class="chip">Structural discovery</span>
-      <span class="chip">Bioenergetics</span>
-      <span class="chip">Machine learning</span>
-      <span class="chip">Whole-cell simulation</span>
-      <span class="chip">Translational biophysics</span>
+    <div class="topicSelectWrap">
+      <label class="topicSelectLabel" for="research-area">Research area</label>
+      <select
+        id="research-area"
+        class="topicSelect"
+        onchange="if (this.value) window.location.href=this.value"
+      >
+        <option value="">Choose a research area</option>
+        {researchAreas.map((area) => (
+          <option value={area.href}>{area.label}</option>
+        ))}
+      </select>
     </div>
 
     <div class="ctaRow">
-      <a class="btn primary" href={`${base}projects`}>See Projects</a>
-      <a class="btn" href={`${base}publications`}>View Publications</a>
-      <a class="btn" href={`${base}people`}>Collaborators & Team</a>
+      <a class="btn primary" href={`${base}/projects`}>See Projects</a>
+      <a class="btn" href={`${base}/publications`}>View Publications</a>
+      <a class="btn" href={`${base}/people`}>Collaborators & Team</a>
     </div>
   </section>
 
