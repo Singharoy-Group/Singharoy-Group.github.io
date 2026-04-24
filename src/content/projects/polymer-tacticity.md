@@ -11,13 +11,17 @@ tags:
   - Mechanochemistry
 
 team:
+  - name: "Abhishek Singharoy"
+    role: "Principal Investigator"
+    href: "people#abhishek-singharoy"
+    
   - name: "Christine Rajarigam"
-    role: "Researcher"
-    href: "people/christine"
+    role: "Graduate Student"
+    href: "people#christine-rajarigam"
 
   - name: "Bhavya Jain"
-    role: "Researcher"
-    href: "people/bhavya"
+    role: "Graduate Student"
+    href: "people#bhavya-jain"
 
 updates:
   - "Initial computational setup for tacticity-dependent scission underway."
