@@ -17,5 +17,5 @@ team:
     role: "Graduate Student"
     href: "people#bhavya-jain"
 
-updates:["Initial computational setup for tacticity-dependent scission underway.", "Force-pulling simulations being analyzed."]
+updates: ["Initial computational setup for tacticity-dependent scission underway.", "Force-pulling simulations being analyzed."]
 ---
