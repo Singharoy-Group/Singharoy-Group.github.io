@@ -21,6 +21,6 @@ team:
   - name: "John Kevin Cava"
     role: "PhD Student"
     href: "people#john-cava"
-updates: "Ongoing Simulations"
+updates: ["Ongoing Simulations"]
 
 ---
