@@ -27,6 +27,6 @@ updates:
   - "Initial computational setup for tacticity-dependent scission underway."
   - "Force-pulling simulations being analyzed."
 
-video: ""
-thumbnail: ""
+video: "/uploads/tacticity.mp4"
+thumbnail: "/uploads/tacticity.png"
 ---
