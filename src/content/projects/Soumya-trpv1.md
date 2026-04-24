@@ -1,7 +1,7 @@
 ---
 title: "Investigation of Polymodal activity of TRPV1 ion channel."
 status: "Active"
-phase: ""
+phase: "Investigation"
 summary: "The goal of the proposed research is to understand the polymodal activation of TRPV1, specifically its activation
     by heat, protons, and chemical ligands. Understanding the molecular mechanisms that underlie TRPV1 function
     has significant implications in human health. TRPV1 is a polymodally regulated ion channel that is activated by
