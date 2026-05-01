@@ -772,7 +772,7 @@ const stats = [
                 {/* --- MEDIA COMPONENT --- */}
                 {(project.data.video || project.data.thumbnail) && (
                   <div class="mediaContainer">
-                    {project.data.video ? (
+                    {project.data.video && project.data.video.match(/\.(mp4|webm|ogg)$/i) ? (
                       <video 
                         src={withBase(project.data.video)} 
                         poster={project.data.thumbnail ? withBase(project.data.thumbnail) : undefined}
@@ -785,7 +785,7 @@ const stats = [
                       </video>
                     ) : (
                       <img 
-                        src={withBase(project.data.thumbnail)} 
+                        src={withBase(project.data.video || project.data.thumbnail)} 
                         alt={project.data.title} 
                         loading="lazy" 
                       />
