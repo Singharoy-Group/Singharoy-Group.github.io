@@ -2,18 +2,19 @@
 // src/pages/people.astro
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { uploadPath, withBase as withSiteBase } from "../../lib/site";
+import { uploadPath, withBase } from "../../lib/site";
 
 const peopleEntries = await getCollection("people");
 
 /** --- Categorization rules (edit keywords anytime) --- */
-function categorize(person) {
-  const role = typeof person === "string" ? person : person?.data?.role ?? "";
+function categorize(role = "") {
   const r = role.toLowerCase();
 
   if (
-    typeof person !== "string" &&
-    (person?.data?.alumni || r.includes("alumni") || r.includes("alumnus") || r.includes("alumna"))
+    r.includes("alumni") ||
+    r.includes("alumnus") ||
+    r.includes("alumna") ||
+    r.includes("former")
   ) return "Alumni";
 
   if (
@@ -46,7 +47,7 @@ function categorize(person) {
     r.includes("ug") ||
     r.includes("assistant") ||
     r.includes("intern")
-  ) return "Undergraduate Assistants";
+  ) return "Undergraduate Students";
 
   return "Other";
 }
@@ -54,37 +55,46 @@ function categorize(person) {
 const grouped = {
   "Senior Personnel": [],
   "Graduate Students": [],
-  "Undergraduate Assistants": [],
+  "Undergraduate Students": [],
   "Alumni": [],
   "Other": [],
 };
 
 for (const p of peopleEntries) {
-  grouped[categorize(p)]?.push(p);
+  grouped[categorize(p.data.role)]?.push(p);
 }
 
 for (const k of Object.keys(grouped)) {
   grouped[k].sort((a, b) => (a.data.name ?? "").localeCompare(b.data.name ?? ""));
 }
 
-const sectionOrder = ["Senior Personnel", "Graduate Students", "Undergraduate Assistants", "Other", "Alumni"];
+const sectionOrder = ["Senior Personnel", "Graduate Students", "Undergraduate Students", "Alumni", "Other"];
 const showOther = grouped["Other"].length > 0;
+const sectionSlug = (sectionName = "") => sectionName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const visibleSections = sectionOrder.filter((sectionName) => {
+  if (sectionName === "Other" && !showOther) return false;
+  if (["Undergraduate Students", "Alumni"].includes(sectionName)) return true;
+  return (grouped[sectionName] ?? []).length > 0;
+});
 
 const base = import.meta.env.BASE_URL;
 const assetPath = (path = "") => uploadPath(base, path);
-const withBase = (path = "") => withSiteBase(base, path);
+const sitePath = (path = "") => withBase(base, path);
 const placeholderImage = assetPath("logo.png");
 
-const projectTopicLinks = [
-  { label: "Structural biology", href: withBase("/projects#topic-structural-biology") },
-  { label: "Complex systems", href: withBase("/projects#topic-complex-systems") },
-  { label: "Human-centered data science", href: withBase("/projects#topic-human-centered-data-science") },
+const researchAreas = [
+  { label: "Structural Biology", href: sitePath("/projects?topic=structural-biology#topic-map") },
+  { label: "Complex Systems", href: sitePath("/projects?topic=complex-systems#topic-map") },
+  { label: "Multiscale Modeling", href: sitePath("/projects?topic=multiscale-modeling#topic-map") },
+  { label: "Applied Deep Learning", href: sitePath("/projects?topic=applied-deep-learning#topic-map") },
+  { label: "Human Computer Interaction", href: sitePath("/projects?topic=human-computer-interaction#topic-map") },
 ];
 ---
 
 <style>
   :global(html) { font-family: Arial, Helvetica, sans-serif; }
   :global(body) { background: #f6f7fb; margin: 0; color: rgba(0,0,0,.9); }
+  :global([id]) { scroll-margin-top: 104px; }
 
   .topbar {
     position: sticky;
@@ -236,9 +246,62 @@ const projectTopicLinks = [
   }
 
   .wrap {
-    max-width: 1240px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 2.25rem 1.25rem 3rem 1.25rem;
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 1.4rem;
+    align-items: start;
+  }
+
+  .contentNav {
+    position: sticky;
+    top: 84px;
+    border-radius: 18px;
+    border: 1px solid rgba(0,0,0,.07);
+    background: rgba(255,255,255,.86);
+    box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    padding: 1rem;
+    max-height: calc(100vh - 110px);
+    overflow: auto;
+  }
+
+  .contentNavTitle {
+    margin: 0 0 .75rem 0;
+    font-size: .92rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,.55);
+    font-weight: 800;
+  }
+
+  .contentNavList {
+    display: grid;
+    gap: .25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contentNavLink {
+    display: block;
+    border-radius: 10px;
+    padding: .48rem .55rem;
+    color: rgba(0,0,0,.72);
+    text-decoration: none;
+    font-size: .94rem;
+    line-height: 1.35;
+  }
+
+  .contentNavLink:hover,
+  .contentNavLink:focus-visible {
+    background: rgba(0,0,0,.05);
+    color: rgba(0,0,0,.92);
+  }
+
+  .contentColumn {
+    min-width: 0;
   }
 
   .hero {
@@ -276,31 +339,31 @@ const projectTopicLinks = [
     margin: 0;
   }
 
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .55rem;
+  .topicSelectWrap {
+    display: grid;
+    gap: .38rem;
     margin-top: 1rem;
+    max-width: 360px;
   }
 
-  .chip {
-    font-size: 0.98rem;
-    padding: .45rem .75rem;
-    border-radius: 999px;
+  .topicSelectLabel {
+    margin: 0;
+    font-size: .86rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(0,0,0,.5);
+    font-weight: 700;
+  }
+
+  .topicSelect {
+    width: 100%;
+    border-radius: 14px;
     border: 1px solid rgba(0,0,0,.10);
-    background: rgba(255,255,255,.75);
-    color: rgba(0,0,0,.72);
-  }
-
-  .topicLink {
-    text-decoration: none;
-    transition: transform .15s ease, border-color .15s ease, background .15s ease;
-  }
-
-  .topicLink:hover {
-    transform: translateY(-1px);
-    border-color: rgba(0,0,0,.18);
-    background: rgba(255,255,255,.95);
+    background: white;
+    color: rgba(0,0,0,.86);
+    padding: .72rem .9rem;
+    font-size: .96rem;
+    line-height: 1.2;
   }
 
   .section { margin-top: 1.75rem; }
@@ -319,8 +382,29 @@ const projectTopicLinks = [
     gap: 1.25rem;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 640px)  { .grid { grid-template-columns: 1fr; } h1 { font-size: 2.3rem; } .hero { padding: 2rem 1.4rem; } }
+
+  .emptySection {
+    border-radius: 22px;
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 12px 28px rgba(0,0,0,.07);
+    padding: 1.2rem;
+    color: rgba(0,0,0,.66);
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 1000px) {
+    .wrap { grid-template-columns: 1fr; }
+    .contentNav { position: static; max-height: none; }
+    .contentNavList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px)  {
+    .grid { grid-template-columns: 1fr; }
+    .contentNavList { grid-template-columns: 1fr; }
+    h1 { font-size: 2.3rem; }
+    .hero { padding: 2rem 1.4rem; }
+  }
 
   .card {
     border-radius: 22px;
@@ -521,84 +605,60 @@ const projectTopicLinks = [
   .footerLinks { display: flex; gap: .9rem; flex-wrap: wrap; }
   .footerLinks a { color: rgba(0,0,0,.65); text-decoration: none; }
   .footerLinks a:hover { text-decoration: underline; }
-
-  .sectionNote {
-    margin: .25rem 0 0;
-    color: rgba(0,0,0,.58);
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .alumniNow {
-    margin: 1rem 0 .2rem;
-    padding: .85rem 1rem;
-    border-radius: 18px;
-    background:
-      radial-gradient(circle at 12% 20%, rgba(16,185,129,.14), transparent 45%),
-      rgba(0,0,0,.03);
-    border: 1px solid rgba(0,0,0,.06);
-  }
-
-  .alumniLabel {
-    margin: 0 0 .25rem;
-    font-size: .8rem;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,.52);
-    font-weight: 800;
-  }
-
-  .alumniAssociation {
-    margin: 0;
-    color: rgba(0,0,0,.78);
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 700;
-  }
 </style>
 
 <SiteLayout title="People | Systems Structural Biology Group">
 <main class="wrap">
+  <aside class="contentNav" aria-label="People contents">
+    <p class="contentNavTitle">Contents</p>
+    <ol class="contentNavList">
+      {visibleSections.map((sectionName) => (
+        <li><a class="contentNavLink" href={`#${sectionSlug(sectionName)}`}>{sectionName}</a></li>
+      ))}
+    </ol>
+  </aside>
+
+  <div class="contentColumn">
   <section class="hero">
     <p class="kicker">Our Team</p>
     <h1>People</h1>
     <p class="sub">Human-centered AI science for structural discovery and complex systems.</p>
-    <div class="chips">
-      {projectTopicLinks.map((topic) => (
-        <a class="chip topicLink" href={topic.href}>{topic.label}</a>
-      ))}
+    <div class="topicSelectWrap">
+      <label class="topicSelectLabel" for="people-research-area">Research area</label>
+      <select
+        id="people-research-area"
+        class="topicSelect"
+        onchange="if (this.value) window.location.href=this.value"
+      >
+        <option value="">Choose a research area</option>
+        {researchAreas.map((area) => (
+          <option value={area.href}>{area.label}</option>
+        ))}
+      </select>
     </div>
   </section>
 
   {sectionOrder.map((sectionName) => {
     if (sectionName === "Other" && !showOther) return null;
     const sectionPeople = grouped[sectionName] ?? [];
-    if (sectionPeople.length === 0 && sectionName !== "Alumni") return null;
+    if (sectionPeople.length === 0 && !["Undergraduate Students", "Alumni"].includes(sectionName)) return null;
 
     return (
-      <section class="section">
+      <section id={sectionSlug(sectionName)} class="section">
         <div class="sectionHead">
-          <div>
-            <h2 class="sectionTitle">{sectionName}</h2>
-            {sectionName === "Alumni" && (
-              <p class="sectionNote">Former lab members and their current affiliations.</p>
-            )}
-          </div>
+          <h2 class="sectionTitle">{sectionName}</h2>
           <p class="count">{sectionPeople.length} member{sectionPeople.length === 1 ? "" : "s"}</p>
         </div>
 
-        <div class="grid">
-          {sectionPeople.length === 0 && sectionName === "Alumni" ? (
-            <article class="card alumniEmpty">
-              <div class="cardInner">
-                <h3 class="name">Alumni profiles coming soon</h3>
-                <p class="bio">
-                  Add <code>alumni: true</code> and <code>currentAssociation</code> to a person profile to show
-                  former lab members and where they are currently associated.
-                </p>
-              </div>
-            </article>
-          ) : sectionPeople.map((p) => (
+        {sectionPeople.length === 0 ? (
+          <p class="emptySection">
+            {sectionName === "Undergraduate Students"
+              ? "No undergraduate students listed yet."
+              : "No alumni entries listed yet."}
+          </p>
+        ) : (
+          <div class="grid">
+            {sectionPeople.map((p) => (
             <article class="card">
               <div class="cardInner">
                 <div class="top">
@@ -615,13 +675,6 @@ const projectTopicLinks = [
                     <span class="role">{p.data.role}</span>
                   </div>
                 </div>
-
-                {sectionName === "Alumni" && p.data.currentAssociation && (
-                  <div class="alumniNow">
-                    <p class="alumniLabel">Current association</p>
-                    <p class="alumniAssociation">{p.data.currentAssociation}</p>
-                  </div>
-                )}
 
                 {p.data.bio && (
                   <>
@@ -675,9 +728,6 @@ const projectTopicLinks = [
                   {p.data.links?.github && (
                     <a class="pill" href={p.data.links.github} target="_blank" rel="noreferrer">GitHub</a>
                   )}
-                  {p.data.links?.website && (
-                    <a class="pill" href={p.data.links.website} target="_blank" rel="noreferrer">Website</a>
-                  )}
                   {p.data.links?.linkedin && (
                     <a class="pill" href={p.data.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
                   )}
@@ -693,13 +743,15 @@ const projectTopicLinks = [
                 </div>
               </div>
             </article>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div class="divider"></div>
       </section>
     );
   })}
+  </div>
 </main>
 
 <script>
