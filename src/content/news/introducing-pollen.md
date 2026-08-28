@@ -18,9 +18,9 @@ The demonstration connects physics-informed modeling at adjustable resolutions a
 
 <div class="videoEmbed">
   <iframe
-    src="https://drive.google.com/file/d/1Iy7BAUROXU38vKQvuaj0ysdGsvEf1IcH/preview"
+    src="https://drive.google.com/file/d/1Iy7BAUROXU38vKQvuaj0ysdGsvEf1IcH/preview?autoplay=1"
     title="Introducing Pollen research demo"
-    loading="lazy"
+    loading="eager"
     allow="autoplay; fullscreen"
     allowfullscreen
   ></iframe>
