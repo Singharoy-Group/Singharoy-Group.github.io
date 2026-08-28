@@ -7,7 +7,9 @@ tags:
   - "Pollen"
   - "Molecular simulation"
   - "Artificial intelligence"
-featured: false
+heroImage: "/uploads/pollen-demo-preview.png"
+heroAlt: "Physics-informed molecular modeling across proteins, small molecules, and membranes"
+featured: true
 ---
 
 The Systems Structural Biology Group introduces **Pollen**, a platform designed to help research teams explore rare biological and clinical events, test pharmaceutical hypotheses, and build proprietary datasets that include informative negative cases.
