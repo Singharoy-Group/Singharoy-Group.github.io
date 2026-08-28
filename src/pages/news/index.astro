@@ -18,6 +18,9 @@ const formatDate = (date) =>
 const featured = newsEntries.find((entry) => entry.data.featured) ?? newsEntries[0];
 const remaining = newsEntries.filter((entry) => entry.id !== featured?.id);
 const assetPath = (path = "") => uploadPath(base, path);
+const featuredImage = featured?.data.cardImage ?? featured?.data.heroImage;
+const featuredImageAlt =
+  featured?.data.cardAlt ?? featured?.data.heroAlt ?? featured?.data.title;
 ---
 
 <style>
@@ -213,10 +216,10 @@ const assetPath = (path = "") => uploadPath(base, path);
           </div>
 
           <div class="featuredMedia">
-            {featured.data.heroImage && (
+            {featuredImage && (
               <img
-                src={assetPath(featured.data.heroImage)}
-                alt={featured.data.heroAlt ?? featured.data.title}
+                src={assetPath(featuredImage)}
+                alt={featuredImageAlt}
                 loading="lazy"
               />
             )}

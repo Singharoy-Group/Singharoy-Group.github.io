@@ -76,6 +76,8 @@ const news = defineCollection({
     updatedAt: z.coerce.date().optional(),
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    cardImage: z.string().optional(),
+    cardAlt: z.string().optional(),
     heroImage: z.string().optional(),
     heroAlt: z.string().optional(),
     featured: z.boolean().default(false),

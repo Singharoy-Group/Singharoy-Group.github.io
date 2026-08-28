@@ -7,8 +7,8 @@ tags:
   - "Pollen"
   - "Molecular simulation"
   - "Artificial intelligence"
-heroImage: "/uploads/pollen-demo-preview.png"
-heroAlt: "Physics-informed molecular modeling across proteins, small molecules, and membranes"
+cardImage: "/uploads/pollen-demo-preview.png"
+cardAlt: "Physics-informed molecular modeling across proteins, small molecules, and membranes"
 featured: true
 ---
 
